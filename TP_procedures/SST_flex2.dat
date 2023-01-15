@@ -1,0 +1,94 @@
+! === Procedimento SST ===
+! Processamento dos dados de  mapas solares para obtencao de modelos de apontamento sazonais.
+! Investigação de refinamento - aplicação do modelo sobre os dados corrigidos pelo modelo anteriormente
+!
+! ALGORITMO:
+! Apaga eventuais termos existentes no modelo do TPoint
+! Seleciona os termos do modelo de apontamento:
+!  - IA - erro de indexacao em elevacao
+!  - NPAE - erro de nao-perpendicularidade entre os eixos de azimute e de elavacao
+!  - AN - desalinhamento do eixo de azimute na direcao N-S
+!  - AW - desalinhamento do eixo de azimute na direcao E-W
+!  - IE - erro de indexacao em azimute; cada feixe (canal) do SST tem um valor proprio
+!  - CA - erro de colimação na direção esquerda-direita; cada feixe (canal) do SST tem um valor proprio
+!  - TF - compensacao de flexao, aplicavel ao telescopio
+!
+! Para cada estacao do ano
+!   - Zerar o modelo de apontamento
+!   - Para cada canal 
+!      - ler os dados e agregar aa lista de observacoes (comando indat indicando um subdataset para cada canal)
+!   - Gerar arquivo de dados no formato TPoint, incluindo todos os canais (comando outdat)
+!   - Ajustar modelo de apontamento (comando fit)
+!   - Gravar o modelo e respectivos valores de RMS em um arquivo para análise posterior (comando outmex)
+!
+! PARA PROCESSAMENTO DOS ANOS
+! - Substituir (Find & Replace) de acordo com o ano de análise desejado
+!
+! * EXCLUIR MANUALMENTE AS ESTACOES SEM DADOS:
+!   verao 1999 - solsticio de dezembro de 1998 - fora do range do estudo
+!   outono 2000 - MarchEq 2000 
+!   primavera 2000 - SeptEq 2000
+!   primavera 2005 - SeptEq 2005
+!   verao 2006 - DecSol 2005
+!   verao 2017 - DecSol 2016
+!
+! Para análise detalhada, basta rodar de 2007 a 2016
+!
+
+PROC SST
+LOSE
+USE IA IE/1 IE/2 IE/3 IE/4 NPAE CA/1 CA/2 CA/3 CA/4 AN AW TF
+
+! VERAO
+reset
+indat 'indat_files/flex2/2019_verao_ch1' 1
+append
+indat 'indat_files/flex2/2019_verao_ch2' 2
+append
+indat 'indat_files/flex2/2019_verao_ch3' 3
+append
+indat 'indat_files/flex2/2019_verao_ch4' 4
+outdat 'outdat_files/flex2/2019_verao'
+fit
+outmex 'outmex_files/flex2/tpmex_TF_2019_verao'
+
+! OUTONO
+reset
+indat 'indat_files/flex2/2019_outono_ch1' 1
+append
+indat 'indat_files/flex2/2019_outono_ch2' 2
+append
+indat 'indat_files/flex2/2019_outono_ch3' 3
+append
+indat 'indat_files/flex2/2019_outono_ch4' 4
+outdat 'outdat_files/flex2/2019_outono'
+fit
+outmex 'outmex_files/flex2/tpmex_TF_2019_outono'
+
+! INVERNO
+reset
+indat 'indat_files/flex2/2019_inverno_ch1' 1
+append
+indat 'indat_files/flex2/2019_inverno_ch2' 2
+append
+indat 'indat_files/flex2/2019_inverno_ch3' 3
+append
+indat 'indat_files/flex2/2019_inverno_ch4' 4
+outdat 'outdat_files/flex2/2019_inverno'
+fit
+outmex 'outmex_files/flex2/tpmex_TF_2019_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/flex2/2019_primavera_ch1' 1
+append
+indat 'indat_files/flex2/2019_primavera_ch2' 2
+append
+indat 'indat_files/flex2/2019_primavera_ch3' 3
+append
+indat 'indat_files/flex2/2019_primavera_ch4' 4
+outdat 'outdat_files/flex2/2019_primavera'
+fit
+outmex 'outmex_files/flex2/tpmex_TF_2019_primavera'
+
+RETURN

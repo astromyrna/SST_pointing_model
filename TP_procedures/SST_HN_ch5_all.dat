@@ -1,0 +1,602 @@
+! === Procedimento SST ===
+! Processamento dos dados de  mapas solares para obtencao de modelos de apontamento sazonais
+!
+! ALGORITMO:
+! Apaga eventuais termos existentes no modelo do TPoint
+! Seleciona os termos do modelo de apontamento:
+!  - IA - erro de indexacao em elevacao
+!  - NPAE - erro de nao-perpendicularidade entre os eixos de azimute e de elavacao
+!  - AN - desalinhamento do eixo de azimute na direcao N-S
+!  - AW - desalinhamento do eixo de azimute na direcao E-W
+!  - IE - erro de indexacao em azimute; cada feixe (canal) do SST tem um valor proprio
+!  - CA - erro de colimação na direção esquerda-direita; cada feixe (canal) do SST tem um valor proprio
+!  - TF - flexao do tubo, aplicavel ao telescopio
+!  - HNCE - termo harmonico, proporcional ao cosseno da elevacao, 
+!           que produz uma inclinacao do eixo de azimute na direcao N-S
+!  - HNSE - termo harmonico, proporcional ao seno da elevacao, 
+!           que produz uma inclinacao do eixo de azimute na direcao N-S
+!  - HNCA - termo harmonico, proporcional ao cosseno do azimute,
+!           que produz uma inclinacao do eixo de azimute na direcao N-S
+!  - HNSA - termo harmonico, proporcional ao seno do azimute,
+!           que produz uma inclinacao do eixo de azimute na direcao N-S
+! Para cada estacao do ano
+!  - Zera o modelo de apontamento
+!  - Lê os dados pré-processados e agregar aa lista de observacoes (comando indat)
+!  - Calcula o modelo de apontamento (comando fit)
+!  - Grava o modelo e respectivos valores de RMS em um arquivo para análise posterior (comando outmex)
+!
+! PARA PROCESSAMENTO DOS ANOS
+!  - Substituir (Find & Replace) de acordo com o ano de análise desejado
+!
+! * EXCLUIR MANUALMENTE AS ESTACOES SEM DADOS:
+!   verao 1999 - solsticio de dezembro de 1998 - fora do range do estudo
+!   outono 2000 - MarchEq 2000 
+!   primavera 2000 - SeptEq 2000
+!   primavera 2005 - SeptEq 2005
+!   verao 2006 - DecSol 2005
+!   verao 2017 - DecSol 2016!
+
+PROC SST  
+
+LOSE
+
+! Modelo de apontamento para o SST - CRAAM Set2022
+! termos puramente geométricos + TF (flexão) + harmonicos HN
+! somente canal 5
+USE IA IE NPAE CA AN AW TF HNCE HNSE HNCA HNSA 
+
+! ======================================================
+! Ano de análise: 1999
+! Canal 5 do SST
+
+! OUTONO
+reset
+indat 'indat_files/HNS_0/1999_outono_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_1999_outono'
+
+! INVERNO
+reset
+indat 'indat_files/HNS_0/1999_inverno_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_1999_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/HNS_0/1999_primavera_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_1999_primavera'
+
+! ======================================================
+! Ano de análise: 2000
+! Canal 5 do SST
+
+! VERAO
+reset
+indat 'indat_files/HNS_0/2000_verao_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2000_verao'
+
+! OUTONO
+reset
+indat 'indat_files/HNS_0/2000_outono_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2000_outono'
+
+! INVERNO
+reset
+indat 'indat_files/HNS_0/2000_inverno_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2000_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/HNS_0/2000_primavera_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2000_primavera'
+
+! ======================================================
+! Ano de análise: 2001
+! Canal 5 do SST
+
+! VERAO
+reset
+indat 'indat_files/HNS_0/2001_verao_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2001_verao'
+
+! OUTONO
+reset
+indat 'indat_files/HNS_0/2001_outono_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2001_outono'
+
+! INVERNO
+reset
+indat 'indat_files/HNS_0/2001_inverno_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2001_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/HNS_0/2001_primavera_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2001_primavera'
+
+! ======================================================
+! Ano de análise: 2002
+! Canal 5 do SST
+
+! VERAO
+reset
+indat 'indat_files/HNS_0/2002_verao_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2002_verao'
+
+! OUTONO
+reset
+indat 'indat_files/HNS_0/2002_outono_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2002_outono'
+
+! INVERNO
+reset
+indat 'indat_files/HNS_0/2002_inverno_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2002_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/HNS_0/2002_primavera_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2002_primavera'
+
+! ======================================================
+! Ano de análise: 2003
+! Canal 5 do SST
+
+! VERAO
+reset
+indat 'indat_files/HNS_0/2003_verao_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2003_verao'
+
+! OUTONO
+reset
+indat 'indat_files/HNS_0/2003_outono_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2003_outono'
+
+! INVERNO
+reset
+indat 'indat_files/HNS_0/2003_inverno_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2003_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/HNS_0/2003_primavera_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2003_primavera'
+
+! ======================================================
+! Ano de análise: 2004
+! Canal 5 do SST
+
+! VERAO
+reset
+indat 'indat_files/HNS_0/2004_verao_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2004_verao'
+
+! OUTONO
+reset
+indat 'indat_files/HNS_0/2005_outono_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2005_outono'
+
+! INVERNO
+reset
+indat 'indat_files/HNS_0/2005_inverno_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2005_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/HNS_0/2005_primavera_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2005_primavera'
+
+! ======================================================
+! Ano de análise: 2006
+! Canal 5 do SST
+
+! VERAO
+reset
+indat 'indat_files/HNS_0/2006_verao_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2006_verao'
+
+! OUTONO
+reset
+indat 'indat_files/HNS_0/2006_outono_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2006_outono'
+
+! INVERNO
+reset
+indat 'indat_files/HNS_0/2006_inverno_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2006_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/HNS_0/2006_primavera_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2006_primavera'
+
+! ======================================================
+! Ano de análise: 2007
+! Canal 5 do SST
+
+! VERAO
+reset
+indat 'indat_files/HNS_0/2007_verao_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2007_verao'
+
+! OUTONO
+reset
+indat 'indat_files/HNS_0/2007_outono_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2007_outono'
+
+! INVERNO
+reset
+indat 'indat_files/HNS_0/2007_inverno_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2007_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/HNS_0/2007_primavera_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2007_primavera'
+
+! ======================================================
+! Ano de análise: 2008
+! Canal 5 do SST
+
+! VERAO
+reset
+indat 'indat_files/HNS_0/2008_verao_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2008_verao'
+
+! OUTONO
+reset
+indat 'indat_files/HNS_0/2008_outono_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2008_outono'
+
+! INVERNO
+reset
+indat 'indat_files/HNS_0/2008_inverno_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2008_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/HNS_0/2008_primavera_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2008_primavera'
+
+! ======================================================
+! Ano de análise: 2009
+! Canal 5 do SST
+
+! VERAO
+reset
+indat 'indat_files/HNS_0/2009_verao_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2009_verao'
+
+! OUTONO
+reset
+indat 'indat_files/HNS_0/2009_outono_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2009_outono'
+
+! INVERNO
+reset
+indat 'indat_files/HNS_0/2009_inverno_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2009_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/HNS_0/2009_primavera_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2009_primavera'
+
+! ======================================================
+! Ano de análise: 2010
+! Canal 5 do SST
+
+! VERAO
+reset
+indat 'indat_files/HNS_0/2010_verao_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2010_verao'
+
+! OUTONO
+reset
+indat 'indat_files/HNS_0/2010_outono_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2010_outono'
+
+! INVERNO
+reset
+indat 'indat_files/HNS_0/2010_inverno_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2010_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/HNS_0/2010_primavera_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2010_primavera'
+
+! ======================================================
+! Ano de análise: 2011
+! Canal 5 do SST
+
+! VERAO
+reset
+indat 'indat_files/HNS_0/2011_verao_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2011_verao'
+
+! OUTONO
+reset
+indat 'indat_files/HNS_0/2011_outono_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2011_outono'
+
+! INVERNO
+reset
+indat 'indat_files/HNS_0/2011_inverno_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2011_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/HNS_0/2011_primavera_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2011_primavera'
+
+! ======================================================
+! Ano de análise: 2012
+! Canal 5 do SST
+
+! VERAO
+reset
+indat 'indat_files/HNS_0/2012_verao_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2012_verao'
+
+! OUTONO
+reset
+indat 'indat_files/HNS_0/2012_outono_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2012_outono'
+
+! INVERNO
+reset
+indat 'indat_files/HNS_0/2012_inverno_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2012_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/HNS_0/2012_primavera_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2012_primavera'
+
+! ======================================================
+! Ano de análise: 2013
+! Canal 5 do SST
+
+! VERAO
+reset
+indat 'indat_files/HNS_0/2013_verao_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2013_verao'
+
+! OUTONO
+reset
+indat 'indat_files/HNS_0/2013_outono_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2013_outono'
+
+! INVERNO
+reset
+indat 'indat_files/HNS_0/2013_inverno_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2013_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/HNS_0/2013_primavera_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2013_primavera'
+
+! ======================================================
+! Ano de análise: 2014
+! Canal 5 do SST
+
+! VERAO
+reset
+indat 'indat_files/HNS_0/2014_verao_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2014_verao'
+
+! OUTONO
+reset
+indat 'indat_files/HNS_0/2014_outono_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2014_outono'
+
+! INVERNO
+reset
+indat 'indat_files/HNS_0/2014_inverno_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2014_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/HNS_0/2014_primavera_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2014_primavera'
+
+! ======================================================
+! Ano de análise: 2015
+! Canal 5 do SST
+
+! VERAO
+reset
+indat 'indat_files/HNS_0/2015_verao_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2015_verao'
+
+! OUTONO
+reset
+indat 'indat_files/HNS_0/2015_outono_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2015_outono'
+
+! INVERNO
+reset
+indat 'indat_files/HNS_0/2015_inverno_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2015_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/HNS_0/2015_primavera_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2015_primavera'
+
+! ======================================================
+! Ano de análise: 2016
+! Canal 5 do SST
+
+! VERAO
+reset
+indat 'indat_files/HNS_0/2016_verao_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2016_verao'
+
+! OUTONO
+reset
+indat 'indat_files/HNS_0/2016_outono_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2016_outono'
+
+! INVERNO
+reset
+indat 'indat_files/HNS_0/2016_inverno_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2016_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/HNS_0/2016_primavera_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2016_primavera'
+
+! ======================================================
+! Ano de análise: 2017
+! Canal 5 do SST
+
+! VERAO
+reset
+indat 'indat_files/HNS_0/2017_verao_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2017_verao'
+
+! OUTONO
+reset
+indat 'indat_files/HNS_0/2017_outono_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2017_outono'
+
+! INVERNO
+reset
+indat 'indat_files/HNS_0/2017_inverno_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2017_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/HNS_0/2017_primavera_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2017_primavera'
+
+! ======================================================
+! Ano de análise: 2018
+! Canal 5 do SST
+
+! VERAO
+reset
+indat 'indat_files/HNS_0/2018_verao_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2018_verao'
+
+! OUTONO
+reset
+indat 'indat_files/HNS_0/2018_outono_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2018_outono'
+
+! INVERNO
+reset
+indat 'indat_files/HNS_0/2018_inverno_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2018_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/HNS_0/2018_primavera_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2018_primavera'
+
+! ======================================================
+! Ano de análise: 2019
+! Canal 5 do SST
+
+! VERAO
+reset
+indat 'indat_files/HNS_0/2019_verao_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2019_verao'
+
+! OUTONO
+reset
+indat 'indat_files/HNS_0/2019_outono_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2019_outono'
+
+! INVERNO
+reset
+indat 'indat_files/HNS_0/2019_inverno_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2019_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/HNS_0/2019_primavera_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2019_primavera'
+
+RETURN

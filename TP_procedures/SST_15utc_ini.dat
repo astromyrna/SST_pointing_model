@@ -1,0 +1,150 @@
+! === Procedimento SST ===
+! Processamento dos dados de  mapas solares para obtencao de modelos de apontamento sazonais, com separacao
+! dos periodos antes e depois da passagem meridiana (aprox. 15UTC em horario local do CASLEO)
+! 
+! ALGORITMO
+! Apaga eventuais termos existentes no modelo do TPoint
+! Seleciona os termos do modelo de apontamento:
+!  - IA - erro de indexacao em elevacao
+!  - NPAE - erro de nao-perpendicularidade entre os eixos de azimute e de elavacao
+!  - AN - desalinhamento do eixo de azimute na direcao N-S
+!  - AW - desalinhamento do eixo de azimute na direcao E-W
+!  - IE - erro de indexacao em azimute; cada feixe (canal) do SST tem um valor proprio
+!  - CA - erro de colimação na direção esquerda-direita; cada feixe (canal) do SST tem um valor proprio
+!  - TF - compensacao de flexao, aplicavel ao telescopio
+! Para cada estacao do ano
+!  - Para os anteriores aa passagem meridiana: 
+!    - Zera o modelo de apontamento
+!    - Lê os dados pré-processados e agregar aa lista de observacoes (comando indat)
+!    - Gera arquivo de dados no formato TPoint, incluindo todos os canais (comando outdat)
+!    - Calcula o modelo de apontamento (comando fit)
+!    - Grava o modelo e respectivos valores de RMS em um arquivo para análise posterior (comando outmex)
+!  - Para os dados posteriores aa passagem meridiana: 
+!    - Zera o modelo de apontamento
+!    - Lê os dados pré-processados e agregar aa lista de observacoes (comando indat)
+!    - Gera arquivo de dados no formato TPoint, incluindo todos os canais (comando outdat)
+!    - Calcula o modelo de apontamento (comando fit)
+!    - Grava o modelo e respectivos valores de RMS em um arquivo para análise posterior (comando outmex)
+!
+! PARA PROCESSAMENTO DOS ANOS
+!  - Substituir (Find & Replace) de acordo com o ano de análise desejado
+!  - Para esta análise detalhada, rodar de 2007 a 2016
+!
+
+PROC SST
+LOSE
+USE IA IE/1 IE/2 IE/3 IE/4 NPAE CA/1 CA/2 CA/3 CA/4 AN AW TF
+
+! VERAO
+! ANTES DA PASSAGEM MERIDIANA
+reset
+indat 'indat_files/TF_15UTC_0/2016_verao_ch1_antes15UTC' 1
+append
+indat 'indat_files/TF_15UTC_0/2016_verao_ch2_antes15UTC' 2
+append
+indat 'indat_files/TF_15UTC_0/2016_verao_ch3_antes15UTC' 3
+append
+indat 'indat_files/TF_15UTC_0/2016_verao_ch4_antes15UTC' 4
+outdat 'outdat_files/TF_15UTC_0/2016_verao_antes15UTC'
+fit
+outmex 'outmex_files/TF_15UTC_0/tpmex_2016_verao_antes15UTC'
+
+! VERAO
+! DEPOIS DA PASSAGEM MERIDIANA
+reset
+indat 'indat_files/TF_15UTC_0/2016_verao_ch1_depois15UTC' 1
+append
+indat 'indat_files/TF_15UTC_0/2016_verao_ch2_depois15UTC' 2
+append
+indat 'indat_files/TF_15UTC_0/2016_verao_ch3_depois15UTC' 3
+append
+indat 'indat_files/TF_15UTC_0/2016_verao_ch4_depois15UTC' 4
+outdat 'outdat_files/TF_15UTC_0/2016_verao_depois15UTC'
+fit
+outmex 'outmex_files/TF_15UTC_0/tpmex_2016_verao_depois15UTC'
+
+! OUTONO
+! ANTES DA PASSAGEM MERIDIANA
+reset
+indat 'indat_files/TF_15UTC_0/2016_outono_ch1_antes15UTC' 1
+append
+indat 'indat_files/TF_15UTC_0/2016_outono_ch2_antes15UTC' 2
+append
+indat 'indat_files/TF_15UTC_0/2016_outono_ch3_antes15UTC' 3
+append
+indat 'indat_files/TF_15UTC_0/2016_outono_ch4_antes15UTC' 4
+outdat 'outdat_files/TF_15UTC_0/2016_outono_antes15UTC'
+fit
+outmex 'outmex_files/TF_15UTC_0/tpmex_2016_outono_antes15UTC'
+
+! OUTONO
+! DEPOIS DA PASSAGEM MERIDIANA
+reset
+indat 'indat_files/TF_15UTC_0/2016_outono_ch1_depois15UTC' 1
+append
+indat 'indat_files/TF_15UTC_0/2016_outono_ch2_depois15UTC' 2
+append
+indat 'indat_files/TF_15UTC_0/2016_outono_ch3_depois15UTC' 3
+append
+indat 'indat_files/TF_15UTC_0/2016_outono_ch4_depois15UTC' 4
+outdat 'outdat_files/TF_15UTC_0/2016_outono_depois15UTC'
+fit
+outmex 'outmex_files/TF_15UTC_0/tpmex_2016_outono_depois15UTC'
+
+! INVERNO
+! ANTES DA PASSAGEM MERIDIANA
+reset
+indat 'indat_files/TF_15UTC_0/2016_inverno_ch1_antes15UTC' 1
+append
+indat 'indat_files/TF_15UTC_0/2016_inverno_ch2_antes15UTC' 2
+append
+indat 'indat_files/TF_15UTC_0/2016_inverno_ch3_antes15UTC' 3
+append
+indat 'indat_files/TF_15UTC_0/2016_inverno_ch4_antes15UTC' 4
+outdat 'outdat_files/TF_15UTC_0/2016_inverno_antes15UTC'
+fit
+outmex 'outmex_files/TF_15UTC_0/tpmex_2016_inverno_antes15UTC'
+
+! INVERNO 
+! DEPOIS DA PASSAGEM MERIDIANA
+reset
+indat 'indat_files/TF_15UTC_0/2016_inverno_ch1_depois15UTC' 1
+append
+indat 'indat_files/TF_15UTC_0/2016_inverno_ch2_depois15UTC' 2
+append
+indat 'indat_files/TF_15UTC_0/2016_inverno_ch3_depois15UTC' 3
+append
+indat 'indat_files/TF_15UTC_0/2016_inverno_ch4_depois15UTC' 4
+outdat 'outdat_files/TF_15UTC_0/2016_inverno_depois15UTC'
+fit
+outmex 'outmex_files/TF_15UTC_0/tpmex_2016_inverno_depois15UTC'
+
+! PRIMAVERA
+! ANTES DA PASSAGEM MERIDIANA
+reset
+indat 'indat_files/TF_15UTC_0/2016_primavera_ch1_antes15UTC' 1
+append
+indat 'indat_files/TF_15UTC_0/2016_primavera_ch2_antes15UTC' 2
+append
+indat 'indat_files/TF_15UTC_0/2016_primavera_ch3_antes15UTC' 3
+append
+indat 'indat_files/TF_15UTC_0/2016_primavera_ch4_antes15UTC' 4
+outdat 'outdat_files/TF_15UTC_0/2016_primavera_antes15UTC'
+fit
+outmex 'outmex_files/TF_15UTC_0/tpmex_2016_primavera_antes15UTC'
+
+! PRIMAVERA
+! DEPOIS DA PASSAGEM MERIDIANA
+reset
+indat 'indat_files/TF_15UTC_0/2016_primavera_ch1_depois15UTC' 1
+append
+indat 'indat_files/TF_15UTC_0/2016_primavera_ch2_depois15UTC' 2
+append
+indat 'indat_files/TF_15UTC_0/2016_primavera_ch3_depois15UTC' 3
+append
+indat 'indat_files/TF_15UTC_0/2016_primavera_ch4_depois15UTC' 4
+outdat 'outdat_files/TF_15UTC_0/2016_primavera_depois15UTC'
+fit
+outmex 'outmex_files/TF_15UTC_0/tpmex_2016_primavera_depois15UTC'
+
+RETURN

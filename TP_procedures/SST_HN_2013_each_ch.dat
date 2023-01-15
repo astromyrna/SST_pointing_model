@@ -1,0 +1,166 @@
+! === Procedimento SST ===
+! Processamento dos dados de  mapas solares para obtencao de modelos de apontamento sazonais
+!
+! ALGORITMO:
+! Apaga eventuais termos existentes no modelo do TPoint
+! Seleciona os termos do modelo de apontamento:
+!  - IA - erro de indexacao em elevacao
+!  - NPAE - erro de nao-perpendicularidade entre os eixos de azimute e de elavacao
+!  - AN - desalinhamento do eixo de azimute na direcao N-S
+!  - AW - desalinhamento do eixo de azimute na direcao E-W
+!  - IE - erro de indexacao em azimute; cada feixe (canal) do SST tem um valor proprio
+!  - CA - erro de colimação na direção esquerda-direita; cada feixe (canal) do SST tem um valor proprio
+!  - TF - flexao do tubo, aplicavel ao telescopio
+!  - HNCE - termo harmonico, proporcional ao cosseno da elevacao, 
+!           que produz uma inclinacao do eixo de azimute na direcao N-S
+!  - HNSE - termo harmonico, proporcional ao seno da elevacao, 
+!           que produz uma inclinacao do eixo de azimute na direcao N-S
+!  - HNCA - termo harmonico, proporcional ao cosseno do azimute,
+!           que produz uma inclinacao do eixo de azimute na direcao N-S
+!  - HNSA - termo harmonico, proporcional ao seno do azimute,
+!           que produz uma inclinacao do eixo de azimute na direcao N-S
+! Para cada estacao do ano
+!  - Zera o modelo de apontamento
+!  - Lê os dados pré-processados e agregar aa lista de observacoes (comando indat)
+!  - Calcula o modelo de apontamento (comando fit)
+!  - Grava o modelo e respectivos valores de RMS em um arquivo para análise posterior (comando outmex)
+!
+
+
+PROC SST  
+
+LOSE
+
+! Modelo de apontamento para o SST - 212 e 405 GHz - CRAAM Set2022
+! termos puramente geométricos + TF (flexão) + harmonico HN (canais 1 a 6)
+USE IA IE NPAE CA AN AW TF HNCE HNSE HNCA HNSA 
+
+! Ano de análise: 2013
+! Cada canal do SST separadamente
+
+! VERAO
+reset
+indat 'indat_files/HNS_0/2013_verao_ch1'
+fit
+outmex 'outmex_files/HNS_0/ch1_tpmex_2013_verao'
+
+reset
+indat 'indat_files/HNS_0/2013_verao_ch2'
+fit
+outmex 'outmex_files/HNS_0/ch2_tpmex_2013_verao'
+
+reset
+indat 'indat_files/HNS_0/2013_verao_ch3'
+fit
+outmex 'outmex_files/HNS_0/ch3_tpmex_2013_verao'
+
+reset
+indat 'indat_files/HNS_0/2013_verao_ch4'
+fit
+outmex 'outmex_files/HNS_0/ch4_tpmex_2013_verao'
+
+reset
+indat 'indat_files/HNS_0/2013_verao_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2013_verao'
+
+reset
+indat 'indat_files/HNS_0/2013_verao_ch6'
+fit
+outmex 'outmex_files/HNS_0/ch6_tpmex_2013_verao'
+
+! OUTONO
+reset
+indat 'indat_files/HNS_0/2013_outono_ch1'
+fit
+outmex 'outmex_files/HNS_0/ch1_tpmex_2013_outono'
+
+reset
+indat 'indat_files/HNS_0/2013_outono_ch2'
+fit
+outmex 'outmex_files/HNS_0/ch2_tpmex_2013_outono'
+
+reset
+indat 'indat_files/HNS_0/2013_outono_ch3'
+fit
+outmex 'outmex_files/HNS_0/ch3_tpmex_2013_outono'
+
+reset
+indat 'indat_files/HNS_0/2013_outono_ch4'
+fit
+outmex 'outmex_files/HNS_0/ch4_tpmex_2013_outono'
+
+reset
+indat 'indat_files/HNS_0/2013_outono_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2013_outono'
+
+reset
+indat 'indat_files/HNS_0/2013_outono_ch6'
+fit
+outmex 'outmex_files/HNS_0/ch6_tpmex_2013_outono'
+
+
+! INVERNO
+reset
+indat 'indat_files/HNS_0/2013_inverno_ch1'
+fit
+outmex 'outmex_files/HNS_0/ch1_tpmex_2013_inverno'
+
+reset
+indat 'indat_files/HNS_0/2013_inverno_ch2'
+fit
+outmex 'outmex_files/HNS_0/ch2_tpmex_2013_inverno'
+
+reset
+indat 'indat_files/HNS_0/2013_inverno_ch3'
+fit
+outmex 'outmex_files/HNS_0/ch3_tpmex_2013_inverno'
+
+reset
+indat 'indat_files/HNS_0/2013_inverno_ch4'
+fit
+outmex 'outmex_files/HNS_0/ch4_tpmex_2013_inverno'
+
+reset
+indat 'indat_files/HNS_0/2013_inverno_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2013_inverno'
+
+reset
+indat 'indat_files/HNS_0/2013_inverno_ch6'
+fit
+outmex 'outmex_files/HNS_0/ch6_tpmex_2013_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/HNS_0/2013_primavera_ch1'
+fit
+outmex 'outmex_files/HNS_0/ch1_tpmex_2013_primavera'
+
+reset
+indat 'indat_files/HNS_0/2013_primavera_ch2'
+fit
+outmex 'outmex_files/HNS_0/ch2_tpmex_2013_primavera'
+
+reset
+indat 'indat_files/HNS_0/2013_primavera_ch3'
+fit
+outmex 'outmex_files/HNS_0/ch3_tpmex_2013_primavera'
+
+reset
+indat 'indat_files/HNS_0/2013_primavera_ch4'
+fit
+outmex 'outmex_files/HNS_0/ch4_tpmex_2013_primavera'
+
+reset
+indat 'indat_files/HNS_0/2013_primavera_ch5'
+fit
+outmex 'outmex_files/HNS_0/ch5_tpmex_2013_primavera'
+
+reset
+indat 'indat_files/HNS_0/2013_primavera_ch6'
+fit
+outmex 'outmex_files/HNS_0/ch6_tpmex_2013_primavera'
+
+RETURN

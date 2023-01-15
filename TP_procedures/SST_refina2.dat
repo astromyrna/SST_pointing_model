@@ -1,0 +1,90 @@
+! === Procedimento SST - define o modelo de apontamento a ser usado ===
+! Apaga eventuais termos existentes no modelo do TPoint
+! Seleciona os termos do modelo de apontamento:
+!  - IA - erro de indexacao em elevacao
+!  - NPAE - erro de nao-perpendicularidade entre os eixos de azimute e de elavacao
+!  - AN - desalinhamento do eixo de azimute na direcao N-S
+!  - AW - desalinhamento do eixo de azimute na direcao E-W
+!  - IE - erro de indexacao em azimute; cada feixe (canal) do SST tem um valor proprio
+!  - CA - erro de colimação na direção esquerda-direita; cada feixe (canal) do SST tem um valor proprio
+
+PROC SST  (Modelo básico do SST - 212 GHz - CRAAM Dez2021)
+LOSE
+USE IA IE/1 IE/2 IE/3 IE/4 NPAE CA/1 CA/2 CA/3 CA/4 AN AW
+RETURN
+
+! === Procedimento DADOS - calcula os modelos de apontamento para o ano desejado ===
+! Para cada estacao do ano
+!  - Zera o modelo de apontamento
+!  - Para cada canal 
+!     - Le os dados e agrega aa lista de observacoes (comando indat indicando um subdataset para cada canal)
+!  - Gera arquivo de dados no formato TPoint, incluindo todos os canais (comando outdat)
+!  - Calcula o modelo de apontamento (comando fit)
+!  - Grava o modelo e respectivos valores de RMS em um arquivo para análise posterior (comando outmex)
+!
+
+! PARA PROCESSAMENTO DOS ANOS
+! - Substituir (Find & Replace) de acordo com o ano de análise desejado
+!
+! * EXCLUIR MANUALMENTE AS ESTACOES SEM DADOS:
+!   verao 1999 - solsticio de dezembro de 1998 - fora do range do estudo
+!   outono 2000 - MarchEq 2000 
+!   primavera 2000 - SeptEq 2000
+!   primavera 2005 - SeptEq 2005
+!   verao 2006 - DecSol 2005
+!   verao 2017 - DecSol 2016
+!
+PROC DADOS  (Modelo básico do SST - 212 GHz - CRAAM Dez2021)
+! VERAO
+reset
+indat 'indat_files/refina2/2019_verao_ch1' 1
+append
+indat 'indat_files/refina2/2019_verao_ch2' 2
+append
+indat 'indat_files/refina2/2019_verao_ch3' 3
+append
+indat 'indat_files/refina2/2019_verao_ch4' 4
+outdat 'outdat_files/refina2/2019_verao'
+fit
+outmex 'outmex_files/refina2/tpmex_2019_verao'
+
+! OUTONO
+reset
+indat 'indat_files/refina2/2019_outono_ch1' 1
+append
+indat 'indat_files/refina2/2019_outono_ch2' 2
+append
+indat 'indat_files/refina2/2019_outono_ch3' 3
+append
+indat 'indat_files/refina2/2019_outono_ch4' 4
+outdat 'outdat_files/refina2/2019_outono'
+fit
+outmex 'outmex_files/refina2/tpmex_2019_outono'
+
+! INVERNO
+reset
+indat 'indat_files/refina2/2019_inverno_ch1' 1
+append
+indat 'indat_files/refina2/2019_inverno_ch2' 2
+append
+indat 'indat_files/refina2/2019_inverno_ch3' 3
+append
+indat 'indat_files/refina2/2019_inverno_ch4' 4
+outdat 'outdat_files/refina2/2019_inverno'
+fit
+outmex 'outmex_files/refina2/tpmex_2019_inverno'
+
+! PRIMAVERA
+reset
+indat 'indat_files/refina2/2019_primavera_ch1' 1
+append
+indat 'indat_files/refina2/2019_primavera_ch2' 2
+append
+indat 'indat_files/refina2/2019_primavera_ch3' 3
+append
+indat 'indat_files/refina2/2019_primavera_ch4' 4
+outdat 'outdat_files/refina2/2019_primavera'
+fit
+outmex 'outmex_files/refina2/tpmex_2019_primavera'
+
+RETURN

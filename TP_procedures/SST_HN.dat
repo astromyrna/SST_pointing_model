@@ -1,0 +1,74 @@
+! === Procedimento SST ===
+! Processamento dos dados de  mapas solares para obtencao de modelos de apontamento sazonais
+!
+! ALGORITMO:
+! Apaga eventuais termos existentes no modelo do TPoint
+! Seleciona os termos do modelo de apontamento:
+!  - IA - erro de indexacao em elevacao
+!  - NPAE - erro de nao-perpendicularidade entre os eixos de azimute e de elavacao
+!  - AN - desalinhamento do eixo de azimute na direcao N-S
+!  - AW - desalinhamento do eixo de azimute na direcao E-W
+!  - IE - erro de indexacao em azimute; cada feixe (canal) do SST tem um valor proprio
+!  - CA - erro de colimação na direção esquerda-direita; cada feixe (canal) do SST tem um valor proprio
+!  - TF - flexao do tubo, aplicavel ao telescopio
+!  - HNCE - termo harmonico, proporcional ao cosseno da elevacao, 
+!           que produz uma inclinacao do eixo de azimute na direcao N-S
+!  - HNSE - termo harmonico, proporcional ao seno da elevacao, 
+!           que produz uma inclinacao do eixo de azimute na direcao N-S
+!  - HNCA - termo harmonico, proporcional ao cosseno do azimute,
+!           que produz uma inclinacao do eixo de azimute na direcao N-S
+!  - HNSA - termo harmonico, proporcional ao seno do azimute,
+!           que produz uma inclinacao do eixo de azimute na direcao N-S
+! Para cada estacao do ano
+!  - Zera o modelo de apontamento
+!  - Lê os dados pré-processados e agregar aa lista de observacoes (comando indat)
+!  - Calcula o modelo de apontamento (comando fit)
+!  - Grava o modelo e respectivos valores de RMS em um arquivo para análise posterior (comando outmex)
+!
+! PARA PROCESSAMENTO DOS ANOS
+!  - Substituir (Find & Replace) de acordo com o ano de análise desejado
+!  - Para análise detalhada, basta rodar de 2007 a 2016
+!
+
+PROC SST  
+
+LOSE
+
+! Modelo de apontamento para o SST - 212 GHz - CRAAM Dez2021
+! termos puramente geométricos + TF (flexão)
+USE IA IE/1 IE/2 IE/3 IE/4 NPAE CA/1 CA/2 CA/3 CA/4 AN AW TF HNCE HNSE HNCA HNSA 
+
+! Substituir (Find & Replace) de acordo com o ano de análise desejado
+! Estações sem dados:
+! verao 1999 - solsticio de dezembro de 1998 - fora do range do estudo
+! outono 1999 - MarchEq 1999
+! primavera 2000 - SeptEq 2000
+! primavera 2005 - SeptEq 2005
+! verao 2006 - DecSol 2005
+! verao 2017 - DecSol 2016
+
+! VERAO
+reset
+indat 'outdat_files/inicial/2016_verao'
+fit
+outmex 'outmex_files/HNterms/tpmex_HNterms_2016_verao'
+
+! OUTONO
+reset
+indat 'outdat_files/inicial/2016_outono'
+fit
+outmex 'outmex_files/HNterms/tpmex_HNterms_2016_outono'
+
+! INVERNO
+reset
+indat 'outdat_files/inicial/2016_inverno'
+fit
+outmex 'outmex_files/HNterms/tpmex_HNterms_2016_inverno'
+
+! PRIMAVERA
+reset
+indat 'outdat_files/inicial/2016_primavera'
+fit
+outmex 'outmex_files/HNterms/tpmex_HNterms_2016_primavera'
+
+RETURN
