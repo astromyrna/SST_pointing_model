@@ -1,0 +1,87 @@
+PROCESSAMENTO DE DADOS DO SST NO TPOINT
+
+PREPARATIVOS:
+Criar a árvore de pastas para arquivos dos comandos
+/indat_files
+    /flex1
+    /flex2
+    OBS: flex0 não é necessária porque não tem modelo aplicado na geração dos arquivos de entrada iniciais; usa-se os arquivos em /outdat_files/inicial
+/outdat_files
+    /flex1
+    /flex2
+    OBS: flex0 não é necessária porque não tem modelo aplicado na geração dos arquivos de entrada iniciais; seriam idênticos a /outdat_files/inicial
+/outmex_files
+    /flex0
+    /flex1
+    /flex2
+/TP_logs
+    /flex0
+    /flex1
+    /flex2
+Preencher a sub-árvore de /TP_logs com arquivos vazios ou dummy <yyyy.log>
+
+EXECUÇÃO:
+(i) na pasta Dropbox/code/TP_models:
+    Editar SST_flex0.dat, definindo as instruções para cada ano (find & replace)
+    chamar o tpoint para cada ano, com geração de log: tpoint TP_logs/flex0/yyyy.log
+    executar inpro SST_flex0
+    executar call SST
+
+(ii) Jupyter notebook: executar TPoint_seasons_input_modeloComTF.ipynb EDITANDO da seguinte forma:
+    PRIMEIRO REFINAMENTO: iteracao = 1
+    Na célula ### ROTINA PRINCIPAL - FORMATAÇÃO DAS ENTRADAS PARA TPOINT ###:
+    começar de ano_ini=1999
+    Para cada ano, escolher uma estação e executar o notebook.
+        Retirar o comentário de uma linha por vez para escolher o marco de inicio da estacao desejada
+        #estacao = MarchEq
+        #estacao = JuneSol
+        #estacao = SeptEq
+        #estacao = DecSol
+
+        IMPORTANTE! 
+        . baixar o kernel (Shutdown)
+        . levantar o kernel
+
+(iii) na pasta Dropbox/code/TP_models:
+    Editar SST_flex1.dat, definindo as instruções para cada ano (find & replace)
+    chamar o tpoint para cada ano, com geração de log: tpoint TP_logs/flex1/yyyy.log
+    executar inpro SST_flex1
+    executar call SST
+
+(iv) Jupyter notebook: executar TPoint_seasons_input.ipynb EDITANDO da seguinte forma:
+    SEGUNDO REFINAMENTO: iteracao = 2
+    Na célula ### ROTINA PRINCIPAL - FORMATAÇÃO DAS ENTRADAS PARA TPOINT ###:
+    começar de ano_ini=1999
+    Para cada ano, escolher uma estação e executar o notebook.
+        Retirar o comentário de uma linha por vez para escolher o marco de inicio da estacao desejada
+        #estacao = MarchEq
+        #estacao = JuneSol
+        #estacao = SeptEq
+        #estacao = DecSol
+
+        IMPORTANTE! 
+        . baixar o kernel (Shutdown)
+        . levantar o kernel
+
+(v) na pasta Dropbox/code/TP_models:
+    Editar SST_flex2.dat, definindo as instruções para cada ano (find & replace)
+    chamar o tpoint para cada ano, com geração de log: tpoint TP_logs/flex2/yyyy.log
+    executar inpro SST_refina2
+    executar call SST
+    executar call dados
+
+### Excluir do processamento as estações sem dados:
+verao 1999 - solsticio de dezembro de 1998 - fora do range
+outono 1999 - MarchEq 1999 
+primavera 2000 - SeptEq 2000
+primavera 2005 - SeptEq 2005
+verao 2006 - DecSol 2005
+verao 2017 - DecSol 2016
+
+(vi) Jupyter Notebook: compilar RMS dos arquivos de modelos (outmex_files)
+    Executar a célula ### ROTINA PRINCIPAL - CONSOLIDAÇÃO DE RMS EM UMA PLANILHA ###
+
+No Excel (app de planilhas):
+Inserir linhas para as estações sem dados, apenas com o valor da data e com as colunas de RMS vazias
+Excluir a primeira coluna (é apenas numeração sequencial)
+Plotar gráficos de colunas; selecionar os dados que se deseja comparar. Para comparações visuais, eecomendável deixar sempre selecionado "sky_RMS" para manter a mesma escala.

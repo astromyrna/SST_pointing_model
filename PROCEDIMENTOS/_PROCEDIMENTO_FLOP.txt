@@ -1,0 +1,62 @@
+PROCESSAMENTO DE DADOS DO SST NO TPOINT
+
+PREPARATIVOS:
+Criar a árvore de pastas para arquivos dos comandos
+/indat_files
+    /flop1
+    OBS: flop0 não é necessária porque não tem modelo aplicado na geração dos arquivos de entrada iniciais; usa-se os arquivos em /outdat_files/inicial
+/outdat_files
+    /flop1
+    OBS: flop0 não é necessária porque não tem modelo aplicado na geração dos arquivos de entrada iniciais; seriam idênticos a /outdat_files/inicial
+/outmex_files
+    /flop0
+    /flop1
+/TP_logs
+    /flop0
+    /flop1
+Preencher a sub-árvore de /TP_logs com arquivos vazios ou dummy <yyyy.log>
+
+EXECUÇÃO:
+(i) na pasta Dropbox/code/TP_models:
+    Editar SST_flop0.dat, definindo as instruções para cada ano (find & replace)
+    chamar o tpoint para cada ano, com geração de log: tpoint TP_logs/flop0/yyyy.log
+    executar inpro SST_flop0
+    executar call SST
+
+(ii) Jupyter notebook: executar TPoint_seasons_input_modeloComFLOP.ipynb EDITANDO da seguinte forma:
+    PRIMEIRO REFINAMENTO: iteracao = 1
+    Na célula ### ROTINA PRINCIPAL - FORMATAÇÃO DAS ENTRADAS PARA TPOINT ###:
+    começar de ano_ini = 1999
+    parar em ano_ini = 2016 (2017 em diante tem warning da função time do astropy, pode-se excluir esses dados da análise)
+    Para cada ano, escolher uma estação e executar o notebook.
+        Retirar o comentário de uma linha por vez para escolher o marco de inicio da estacao desejada
+        #estacao = MarchEq
+        #estacao = JuneSol
+        #estacao = SeptEq
+        #estacao = DecSol
+
+        IMPORTANTE! 
+        . baixar o kernel (Shutdown)
+        . levantar o kernel
+
+(iii) na pasta Dropbox/code/TP_models:
+    Editar SST_flop1.dat, definindo as instruções para cada ano (find & replace)
+    chamar o tpoint para cada ano, com geração de log: tpoint TP_logs/flop1/yyyy.log
+    executar inpro SST_flop1
+    executar call SST
+
+### Excluir do processamento as estações sem dados:
+verao 1999 - solsticio de dezembro de 1998 - fora do range
+outono 1999 - MarchEq 1999 
+primavera 2000 - SeptEq 2000
+primavera 2005 - SeptEq 2005
+verao 2006 - DecSol 2005
+anos 2017 a 2019
+
+(vi) Jupyter Notebook: compilar RMS dos arquivos de modelos (outmex_files)
+    Executar a célula ### ROTINA PRINCIPAL - CONSOLIDAÇÃO DE RMS EM UMA PLANILHA ###
+
+No Excel (app de planilhas):
+Inserir linhas para as estações sem dados, apenas com o valor da data e com as colunas de RMS vazias
+Excluir a primeira coluna (é apenas numeração sequencial)
+Plotar gráficos de colunas; selecionar os dados que se deseja comparar. Para comparações visuais, recomendável deixar sempre selecionado "sky_RMS" para manter a mesma escala.

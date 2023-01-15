@@ -1,0 +1,67 @@
+PROCESSAMENTO DE DADOS DO SST NO TPOINT
+
+PREPARATIVOS:
+Criar a árvore de pastas para arquivos dos comandos
+/indat_files
+    /TF_15UTC_0
+    /TF_15UTC_1
+/outdat_files
+    /TF_15UTC_0
+    /TF_15UTC_1
+/outmex_files
+    /TF_15UTC_0
+    /TF_15UTC_1
+/TP_logs
+    /TF_15UTC_0
+    /TF_15UTC_1
+Preencher a sub-árvore de /TP_logs com arquivos vazios ou dummy <yyyy.log>
+
+EXECUÇÃO:
+(i) Jupyter notebook: executar TPoint_seasons_input_modeloComTF_15UTC.ipynb EDITANDO da seguinte forma:
+    PRIMEIRO REFINAMENTO: iteracao = 0
+    Na célula ### ROTINA PRINCIPAL - FORMATAÇÃO DAS ENTRADAS PARA TPOINT ###:
+    começar de ano_ini=2006, solstício de verão, até ano_ini=2016, equinócio de primavera
+    Para cada ano, escolher as estações sequencialmente e executar o notebook.
+        Retirar o comentário de uma linha por vez para escolher o marco de inicio da estacao desejada
+        #estacao = MarchEq
+        #estacao = JuneSol
+        #estacao = SeptEq
+        #estacao = DecSol
+
+        IMPORTANTE! A cada ano:
+        . baixar o kernel (Shutdown) 
+        . levantar o kernel
+
+(ii) na pasta Dropbox/code/TP_models:
+    Editar SST_15utc_ini.dat, definindo as instruções para cada ano (find & replace)
+    chamar o tpoint para cada ano, com geração de log: tpoint TP_logs/TF_15UTC_0/yyyy.log
+    executar inpro SST_15utc_ini
+    executar call SST
+
+(iii) Jupyter notebook: executar TPoint_seasons_input_modeloComTF.ipynb EDITANDO da seguinte forma:
+    PRIMEIRO REFINAMENTO: iteracao = 1
+    Na célula ### ROTINA PRINCIPAL - FORMATAÇÃO DAS ENTRADAS PARA TPOINT ###:
+    começar de ano_ini=2006, solstício de verão, até ano_ini=2016, equinócio de primavera
+    Para cada ano, escolher uma estação e executar o notebook.
+        Retirar o comentário de uma linha por vez para escolher o marco de inicio da estacao desejada
+        #estacao = MarchEq
+        #estacao = JuneSol
+        #estacao = SeptEq
+        #estacao = DecSol
+
+        IMPORTANTE! 
+        . baixar o kernel (Shutdown)
+        . levantar o kernel
+
+(iv) na pasta Dropbox/code/TP_models:
+    Editar SST_15utc_1.dat, definindo as instruções para cada ano (find & replace)
+    chamar o tpoint para cada ano, com geração de log: tpoint TP_logs/TF_15UTC_1/yyyy.log
+    executar inpro SST_15utc_1
+    executar call SST
+
+(vi) Jupyter Notebook: compilar RMS dos arquivos de modelos (outmex_files)
+    Executar a célula ### ROTINA PRINCIPAL - CONSOLIDAÇÃO DE RMS EM UMA PLANILHA ###
+
+No Excel (app de planilhas):
+Excluir a primeira coluna (é apenas numeração sequencial)
+Plotar gráficos de colunas; selecionar os dados que se deseja comparar. Para comparações visuais, recomendável deixar sempre selecionado "sky_RMS" para manter a mesma escala.

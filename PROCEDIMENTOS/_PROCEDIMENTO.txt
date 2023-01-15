@@ -1,0 +1,105 @@
+PROCESSAMENTO DE DADOS DO SST NO TPOINT
+
+PREPARATIVOS:
+Criar a árvore de pastas para arquivos dos comandos
+/indat_files
+    /inicial
+    /refina1
+    /refina2
+/outdat_files
+    /inicial
+    /refina1
+    /refina2
+/outmex_files
+    /inicial
+    /refina1
+    /refina2
+/TP_logs
+    /inicial
+    /refina1
+    /refina2
+
+EXECUÇÃO:
+(i) No Jupyter Notebook: Executar TPoint_seasons_input.ipynb EDITANDO da seguinte forma:
+    MODELO INICIAL: iteracao = 0
+    Na célula ### ROTINA PRINCIPAL - FORMATAÇÃO DAS ENTRADAS PARA TPOINT ###:
+    começar de ano_ini=1999
+    Para cada ano, escolher uma estação e executar o notebook.
+        Retirar o comentário de uma linha por vez para escolher o marco de inicio da estacao desejada
+        #estacao = MarchEq
+        #estacao = JuneSol
+        #estacao = SeptEq
+        #estacao = DecSol
+
+        IMPORTANTE! 
+        . baixar o kernel (Shutdown)
+        . levantar o kernel
+
+(ii) na pasta Dropbox/code/TP_models: executar TPoint
+     Editar SST_modeloini.dat, definindo as instruções para cada ano (find & replace)
+     chamar o tpoint para cada ano, com geração de log: tpoint TP_logs/inicial/yyyy.log
+     executar inpro SST_modeloini
+     executar call SST
+     executar call dados
+
+(iii) Jupyter notebook: executar TPoint_seasons_input.ipynb EDITANDO da seguinte forma:
+      PRIMEIRO REFINAMENTO: iteracao = 1
+      Na célula ### ROTINA PRINCIPAL - FORMATAÇÃO DAS ENTRADAS PARA TPOINT ###:
+      começar de ano_ini=1999
+      Para cada ano, escolher uma estação e executar o notebook.
+          Retirar o comentário de uma linha por vez para escolher o marco de inicio da estacao desejada
+          #estacao = MarchEq
+          #estacao = JuneSol
+          #estacao = SeptEq
+          #estacao = DecSol
+
+          IMPORTANTE! 
+          . baixar o kernel (Shutdown)
+          . levantar o kernel
+
+(iv) na pasta Dropbox/code/TP_models:
+     Editar SST_refina1.dat, definindo as instruções para cada ano (find & replace)
+     chamar o tpoint para cada ano, com geração de log: tpoint TP_logs/refina1/yyyy.log
+     executar inpro SST_refina1
+     executar call SST
+     executar call dados
+
+(v) Jupyter notebook: executar TPoint_seasons_input.ipynb EDITANDO da seguinte forma:
+    SEGUNDO REFINAMENTO: iteracao = 2
+    Na célula ### ROTINA PRINCIPAL - FORMATAÇÃO DAS ENTRADAS PARA TPOINT ###:
+    começar de ano_ini=1999
+    Para cada ano, escolher uma estação e executar o notebook.
+        Retirar o comentário de uma linha por vez para escolher o marco de inicio da estacao desejada
+        #estacao = MarchEq
+        #estacao = JuneSol
+        #estacao = SeptEq
+        #estacao = DecSol
+
+        IMPORTANTE! 
+        . baixar o kernel (Shutdown)
+        . levantar o kernel
+
+(vi) na pasta Dropbox/code/TP_models:
+    Editar SST_refina2.dat, definindo as instruções para cada ano (find & replace)
+    chamar o tpoint para cada ano, com geração de log: tpoint TP_logs/refina2/yyyy.log
+    executar inpro SST_refina2
+    executar call SST
+    executar call dados
+
+### Excluir do processamento as estações sem dados:
+verao 1999 - solsticio de dezembro de 1998 - fora do range
+outono 1999 - MarchEq 1999 
+primavera 2000 - SeptEq 2000
+primavera 2005 - SeptEq 2005
+verao 2006 - DecSol 2005
+verao 2017 - DecSol 2016
+
+(vii) Jupyter Notebook: compilar RMS dos arquivos de modelos (outmex_files)
+      Executar a célula ### ROTINA PRINCIPAL - CONSOLIDAÇÃO DE RMS EM UMA PLANILHA ###
+
+ANÁLISE NO EXCEL:
+(ou app de planilhas)
+
+Inserir linhas para as estações sem dados, apenas com o valor da data e com as colunas de RMS vazias
+Excluir a primeira coluna (é apenas numeração sequencial)
+Plotar gráficos de colunas; selecionar os dados que se deseja comparar. Para comparações visuais, eecomendável deixar sempre selecionado "sky_RMS" para manter a mesma escala.

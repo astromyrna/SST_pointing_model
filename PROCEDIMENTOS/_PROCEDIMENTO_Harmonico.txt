@@ -1,0 +1,28 @@
+PROCESSAMENTO DE DADOS DO SST NO TPOINT
+
+PREPARATIVOS:
+Criar a árvore de pastas para arquivos dos comandos
+/indat_files
+    /HNCE
+/outdat_files
+    /HNCE
+/outmex_files
+    /HNCE
+/TP_logs
+    /HNCE
+Preencher a sub-árvore de /TP_logs com arquivos vazios ou dummy <yyyy.log>
+
+EXECUÇÃO:
+(i) na pasta Dropbox/code/TP_models:
+    Editar SST_HNterms.dat, definindo as instruções para cada ano (find & replace)
+    chamar o tpoint para cada ano, com geração de log: tpoint TP_logs/HNCE/yyyy.log
+    executar inpro SST_HNCE
+    executar call SST
+
+(ii) Jupyter Notebook: compilar RMS dos arquivos de modelos (outmex_files)
+    Executar a célula ### ROTINA PRINCIPAL - CONSOLIDAÇÃO DE RMS EM UMA PLANILHA ###
+
+No Excel (app de planilhas):
+Inserir linhas para as estações sem dados, apenas com o valor da data e com as colunas de RMS vazias
+Excluir a primeira coluna (é apenas numeração sequencial)
+Plotar gráficos de colunas; selecionar os dados que se deseja comparar. Para comparações visuais, recomendável deixar sempre selecionado "sky_RMS" para manter a mesma escala.
